@@ -15,10 +15,12 @@ def str_to_int(my_input):
                 for index in range(len(allowable_char)):
                     if reverse_string[char] == allowable_char[index]:
                         new_num = corresponding_num[index] * (10 ** char) + new_num
-        print(new_num)
+        return new_num
+    else:
+        raise ValueError('Not a string.')
             
-str_to_int(25.4)
-str_to_int('254')
+print(str_to_int('254'))
+#print(str_to_int(25.4))
 #str_to_int('Hello')
 
 def float_to_int(my_input):
@@ -31,39 +33,65 @@ def float_to_int(my_input):
                 break
             else:
                 new_str = new_str + test_str[char]
-    str_to_int(new_str)    
+    return str_to_int(new_str)    
 
-float_to_int(25.4)
+print(float_to_int(25.4))
 
 def int_to_str(my_input, mult = 1, remainder = 0, length = 1):
     if type(my_input) == int:
         nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         corresp_char = ['0','1','2','3','4','5','6','7','8','9']
         test_input = my_input
-        while test_input > 10:
+        new_str = ''
+        if test_input < 10:
+            for index in range(len(nums)):
+                if test_input == nums[index]:
+                    new_str = corresp_char[index]
+                    return new_str
+        while test_input > 9:
             remainder = remainder + ((test_input % 10) * mult)
             test_input = test_input // 10 
             mult = mult * 10
             length = length + 1
-        new_str = ''
-        for index in range(len(nums)):
-            if test_input == nums[index]:
-                new_str = new_str + corresp_char[index]
+            for index in range(len(nums)):
+                if test_input == nums[index]:
+                    new_str = new_str + corresp_char[index]
+                    #print(test_input, mult, remainder, length) #used for testing
         if mult > 10 and remainder < 10:
-            new_str = new_str + '0'
+            leftover = remainder
+            divisor = mult / 10
+            if leftover == 0:
+                new_str = new_str + '0' * (length - 1)
+                return new_str
+            else:
+                while leftover // divisor < 1:
+                    new_str = new_str + '0'
+                    leftover = leftover * 10
         if remainder < 10:
             for index in range(len(nums)):
                 if remainder == nums[index]:
                     new_str = new_str + corresp_char[index]
-        print(new_str, end='') #not really one new string like this
-        if remainder > 10:
-            int_to_str(my_input = remainder)
-    print() #skips a line?
+        if remainder > 9:
+            leftover = remainder
+            divisor = mult / 10
+            while leftover // divisor < 1:
+                new_str = new_str + '0'
+                leftover = leftover * 10
+            new_str = new_str + int_to_str(my_input = remainder)
+        return new_str
 
-int_to_str(542)
-int_to_str(868)
-#int_to_str(104539837) # ??? doesn't work w 10 at start
-int_to_str(100338474575)
-int_to_str(847567639)
-
-#hw - fix int_to_str; change any print statements within function to return
+print(int_to_str(502))
+print(int_to_str(868))
+print(int_to_str(104539837))
+print(int_to_str(100338474575))
+print(int_to_str(10000)) 
+print(int_to_str(847567639))
+print(int_to_str(109))
+print(int_to_str(1009))
+print(int_to_str(10009))
+print(int_to_str(1001001))
+print(int_to_str(100010001))
+print(int_to_str(1)) 
+print(int_to_str(10)) 
+print(int_to_str(100)) 
+print(int_to_str(1000))
